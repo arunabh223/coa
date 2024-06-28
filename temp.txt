@@ -1,0 +1,31 @@
+# Extract Batch no and Mfg date
+batch_no_match = re.search(r"Batch no: (\w+)", identified_item)
+mfg_date_match = re.search(r"Manufacture date: ([\w\-]+)", identified_item)
+batch_no = batch_no_match.group(1) if batch_no_match else "N/A"
+mfg_date = mfg_date_match.group(1) if mfg_date_match else "N/A"
+
+# Parse the markdown table and convert it to a list of lists
+table_lines = identified_item.split('\n')
+table_data = []
+for line in table_lines:
+    if '|' in line:
+        table_data.append([cell.strip() for cell in line.split('|') if cell.strip()])
+
+# Extract headers and table data
+headers = table_data[0]
+table_data = table_data[2:]  # Skip the header and separator lines
+
+# Add Batch no and Mfg date as separate rows
+final_data = [
+    ["Batch no", batch_no],
+    ["Mfg date", mfg_date],
+    [],
+    headers,
+] + table_data
+
+# Save to CSV
+csv_file_path = "output.csv"
+with open(csv_file_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    for row in final_data:
+        writer.writerow(row)

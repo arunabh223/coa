@@ -22,6 +22,6 @@ def convert_pdf_to_images(pdf_path, output_folder):
 
     print("PDF pages have been converted to PNG images.")
 
-pdf_path = 'Vendor%20COA.pdf'
+pdf_path = '/Users/arunabhbora/Downloads/Code/coa/VendorCOA.pdf'
 output_folder = '/Users/arunabhbora/Downloads/Code/coa/ext_images'
 convert_pdf_to_images(pdf_path, output_folder)
