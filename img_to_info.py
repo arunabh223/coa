@@ -45,13 +45,11 @@ response = client.chat.completions.create(
 identified_item = response.choices[0].message.content
 print(identified_item)
 
-#Showing this result in the form of a table
-
-# Extract Batch no and Mfg date
-product_name_match = re.search(r".*Product Name (\w+)", identified_item)
-batch_no_match = re.search(r".*Manufacture date: ([\w\-]+)", identified_item)
-name = product_name_match.group(1) if product_name_match else "N/A"
-batch_no = batch_no_match.group(1) if batch_no_match else "N/A"
+# Extract product name and product batch no
+product_name_match = re.search(r"\*\*Product Name:\*\*\s*(.+)", identified_item)
+product_batch_no_match = re.search(r"\*\*Product Batch No:\*\*\s*(\w+)", identified_item)
+product_name = product_name_match.group(1).strip() if product_name_match else "N/A"
+product_batch_no = product_batch_no_match.group(1).strip() if product_batch_no_match else "N/A"
 
 # Parse the markdown table and convert it to a list of lists
 table_lines = identified_item.split('\n')
@@ -64,10 +62,10 @@ for line in table_lines:
 headers = table_data[0]
 table_data = table_data[2:]  # Skip the header and separator lines
 
-# Add Batch no and Mfg date as separate rows
+# Add Product name and Product batch no as separate rows
 final_data = [
-    ["Product name", name],
-    ["Batch no", batch_no],
+    ["Product name", product_name],
+    ["Product batch no", product_batch_no],
     [],
     headers,
 ] + table_data
