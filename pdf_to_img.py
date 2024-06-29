@@ -18,10 +18,10 @@ def convert_pdf_to_images(pdf_path, output_folder):
         img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
         
         # Save the image as PNG
-        img.save(f"{output_folder}/page_{page_num + 1}.png")
+        img.save(f"{output_folder}/page_{page_num + 1}.png")    #number of output images = number of pages in the pdf
 
     print("PDF pages have been converted to PNG images.")
 
-pdf_path = 'Vendor%20COA.pdf'
+pdf_path = '/Users/arunabhbora/Downloads/Code/coa/VendorCOA.pdf'
 output_folder = '/Users/arunabhbora/Downloads/Code/coa/ext_images'
 convert_pdf_to_images(pdf_path, output_folder)
